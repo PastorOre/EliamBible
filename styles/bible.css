@@ -1,0 +1,209 @@
+.books-overlay{
+    display: none;
+}
+
+.books-dialog {
+    position: absolute;
+    width: auto;
+    display: grid;
+    grid-template-rows:auto auto;
+    top: 34px;
+    z-index: 3000;
+    background-color: #424242;
+    border-radius: 0.5em;
+    cursor: pointer;
+    border: #c8c8c8 1px solid;
+}
+
+.bible-dialg-header {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #757474;
+    font-size: 0.8em;
+    color: #858383;
+    cursor: move;
+    padding: 0.5em;
+}
+
+.book-version {
+    font-family: 'system-ui';
+    text-align: left;
+    font-size: 1em;
+    padding-left: 0.5em;
+    flex:1;
+}
+
+.bible-dialog-body {
+    max-height: 25em;
+    overflow-y: auto;
+}
+
+#back {
+    display: none;
+    cursor: default;
+    padding: 0.05em 0.25em;
+    border-radius: 3px;
+}
+
+#back:hover{
+    color:#fff;
+    background-color: rgba(255,255,255,0.09);
+}
+
+#close-dialog {
+    font-family: "Segoe MDL2 Assets";
+    font-size: 0.7em;
+    cursor: default;
+    padding: 0.5em;
+    border-radius: 3px;
+}
+
+#close-dialog:hover {
+    color: #fff;
+    background-color: rgba(255,255,255,0.09);
+}
+
+.active {
+    display: grid;
+}
+
+.bible-books {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.2rem;
+    padding: 1rem;
+}
+
+/* .bible-books .book-chapters, */
+.bible-books span{
+    background-color: #4b4b4b;
+    text-align: center;
+    font-size: 0.7em;
+    width: 2rem;
+    color: #ffffff;
+    padding: 0.3rem;
+    border-radius: 0.2em;
+}
+
+/* .book-chapters,
+.books-names {
+    display: block;
+    width: 2em;
+    background-color: #424242;
+    color: #fff;
+    padding: 5px;
+    margin: 2px;
+    font-size: 0.75em;
+    text-align: center;
+    font-family:"system-ui";
+} */
+
+.para {
+    padding-bottom: 10px;
+}
+
+.vno {
+    margin-right: 5px;
+    padding-left: 2px;
+    font-weight: bold;
+    color: #a30808;
+}
+
+.cno {
+    display: inline;
+    line-height: 0.5;
+}
+
+.cno span:first-child[v="0"] {
+    font-size: 3em;
+    font-weight: bold;
+    white-space: pre;
+    vertical-align: middle;
+    padding-right: .1em;
+    color: #a30808;
+    font-family: 'Gill Sans';
+}
+
+.redtxt {
+    color: red;
+}
+
+h5 {
+    margin: 1em auto;
+    font-style: italic;
+}
+
+/* .xref {
+    border-bottom: 1px dashed;
+    cursor: pointer; 
+    font-family: system-ui;
+} */
+
+/*=========Footnote section=========*/
+#foot-note-div {
+    display: none;
+    column-gap: 5px;
+    position: absolute;
+    font-family: system-ui;
+    width: 100%;
+    bottom: 28px;
+    left: 0;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 6px 10px;
+    font-size: 0.8em;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#close-footer {
+    font-family: "Segoe MDL2 Assets";
+    font-size: 0.7em;
+    cursor: pointer;
+    padding-top: 3px;
+}
+
+#footnote {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.FOOTNO {
+    font-style: italic;
+    padding-left: .1em;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.verse-span {
+    padding: 5px;
+    background-color: #424242;
+    color: #fff;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 0.8em
+}
+
+#book {
+    font-size: 2em;
+    font-weight: 400;
+    text-align: center;
+}
+
+#chapter {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+#content {
+    display: block;
+    margin-top: 5px;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+.highlighted{
+    background-color:#e3e2e2;
+}

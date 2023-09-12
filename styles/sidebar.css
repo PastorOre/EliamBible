@@ -1,0 +1,384 @@
+.commentry-div,
+.search-div,
+.dictionary-div,
+.note-div,
+.strongs-div {
+    position: relative;
+    display: none;
+    height: 100%;
+    line-height: 1.5em;
+    overflow: hidden;
+}
+
+.active {
+    display: grid;
+}
+
+/*================ Search section ===================*/
+.search-div {
+    /*display: grid;*/
+    grid-template-rows: auto 1fr;
+    overflow:hidden;
+}
+.search-result-div {
+    overflow-y: auto;
+}
+
+.search-result {
+    display: grid;
+    grid-template-rows: auto auto;
+    box-sizing: border-box;
+    text-align: justify;
+    font-family: system-ui;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-bottom: 1px solid #bebebe;
+}
+
+.search-text {
+    line-height: 1.35em;
+}
+
+.search-result span:first-child {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+    .search-result:last-child {
+        border-bottom: none;
+    }
+
+#search-count {
+    display: block;
+    padding: 5px;
+    font-size: 0.85em;
+    border-bottom: #bebebe 1px solid;
+    user-select: none;
+    background: #eee;
+    width:100%;
+}
+
+/*============== Commentry section =================*/
+.commentry-div {
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+}
+
+.comt-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: end;
+    column-gap: 5px;
+    border-bottom: 1px solid #bebebe;
+    background: #eee;
+    padding: 5px 0px;
+}
+
+    .comt-header span {
+        cursor: pointer;
+        user-select: none;
+        margin-right: 5px;
+    }
+
+.comt-content-div{
+    overflow-y:auto;
+}
+
+.comt-content {
+    display: block;
+    padding: 10px;
+    text-align: justify;
+    font-size: 0.95em;
+    /*overflow-y: auto;*/
+    /* line-height: 1.5em; */
+}
+
+.book-intro{
+    font-weight:bold;
+    text-align:center;
+    padding-bottom:0.5em;
+    font-size:0.9em;
+}
+
+/*================== dictionary style section ==============*/
+.dictionary-div {
+    /*display: grid;*/
+    grid-template-rows: auto 1fr;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dictionary-div .dict-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-items: end;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #bebebe;
+    font-size: 0.85em;
+    user-select: none;
+    z-index: 2000;
+    background:#eee;
+}
+
+.dict-header .dict-search-div {
+    border: solid #bebebe 1px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+    .dict-header .dict-search-div input {
+        border: none;
+        background-color: transparent;
+        text-overflow: ellipsis;
+        padding: 0px 7px;
+    }
+
+.dict-header .dict-search-div input:focus {
+    outline: none;
+}
+
+.dict-header span {
+    font-weight: bold;
+}
+
+.dict-search-div:before {
+    content: url('../images/search.svg');
+    position: relative;
+    text-align: center;
+    top: 2px;
+    left: 5px;
+    padding-right: 5px;
+    user-select: none;
+}
+
+.dict-main {
+    display: grid;
+    grid-template-columns: 1fr 32%;
+    overflow-x: auto;
+}
+
+.dict-content {
+    padding: 10px;
+    overflow-x: auto;
+    text-align: justify;
+    font-size: 0.95em;
+    line-height: 1.5em;
+}
+
+.dict-words-list {
+    border-left: #bebebe 1px solid;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    user-select: none;
+    word-wrap: none;
+}
+
+.dict-words {
+    list-style: none;
+    word-wrap: none;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.active-word {
+    font-weight: bold;
+}
+
+/*============== Tooltip section =================*/
+
+.tooltip {
+    display: none;
+    position: absolute;
+    grid-template-rows: 1fr auto;
+    left: 0;
+    z-index: 999;
+    background-color: #424242;
+    color: #ffffff;
+    text-align: justify;
+    border-radius: 0.5em;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-family: 'system-ui';
+    font-size: 0.8em;
+    width: 20em;
+}
+
+    .tooltip div:first-child {
+        padding: 1em;
+    }
+
+    .tooltip div:last-child {
+        border-top: #757474 solid 1px;
+        padding: 0.5em 1em 1em 1em;
+    }
+
+.show-tooltip {
+    display: grid;
+}
+
+/*============== Dialog Shake Effect ==================*/
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.apply-shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+/*Shake Effect*/
+/*@-webkit-keyframes shake {
+    0% {-webkit-transform: translate(2px, 1px) rotate(0deg);}
+
+    10% {
+        -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        -webkit-transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        -webkit-transform: translate(0px, 2px) rotate(0deg);
+    }
+
+    40% {
+        -webkit-transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        -webkit-transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        -webkit-transform: translate(2px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        -webkit-transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        -webkit-transform: translate(2px, 2px) rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: translate(1px, -2px) rotate(-1deg);
+    }
+
+}
+
+.shake {
+    display: inline-block;
+    -webkit-animation-name: shake;
+    -webkit-animation-duration: 0.5s;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-animation-iteration-count: 1;
+}*/
+
+/*========== Custom Alert Section ===========*/
+.modal__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.03);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 998
+}
+
+#alert-dialog {
+    position: absolute;
+    width: 70%;
+    max-width: 70%;
+    display: block;
+    left: 15%;
+    top: 25%;
+    border-radius: 5px;
+    border: 0.05em solid #bababa;
+    background-color: #f5f5f5;
+    z-index: 999;
+    box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal__titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: move;
+    padding: 0.2em 0.5em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #4e4e4e;
+    font-size: 0.8em;
+    font-weight: 400;
+}
+
+.modal__title {
+    color: #eeeeee;
+}
+
+.modal__close {
+    width: 1em;
+    height: 1em;
+    padding:0em 1em;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #eeeeee;
+    cursor: pointer;
+    font-family: "Segoe MDL2 Assets";
+    font-size:0.5em;
+
+}
+
+    .modal__close:active {
+        transform: scale(0.9);
+    }
+
+.modal__content {
+    padding: 1.5em;
+    font-size: 0.8em;
+    line-height:1.15;
+}
+
+.modal_footer{
+    padding:0.5em;
+    text-align:right;
+
+}
+
+.modal_footer button{
+    border: 0.05em solid #ccc;
+    border-radius: 3px;
+    padding: 0.3em 1.5em;
+    font-size: 0.8em;
+}
+
+.modal_footer button:hover{
+    background-color:#ccc;
+}
