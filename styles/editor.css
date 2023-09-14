@@ -9,7 +9,7 @@
 }
 
 .editor-wrapper{
-    overflow-y: auto
+    overflow-y: auto;
 }
 
 .eliam-editor{
@@ -18,7 +18,7 @@
     font-family: 'system-ui';
     font-size: 1em;
     height: 100%;
-    line-height: 1.15;
+    line-height: 1.5;
 }
 
 .eliam-editor:focus{

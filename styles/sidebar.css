@@ -102,6 +102,7 @@
 }
 
 /*================== dictionary style section ==============*/
+.strongs-div,
 .dictionary-div {
     /*display: grid;*/
     grid-template-rows: auto 1fr;
@@ -109,6 +110,7 @@
     overflow: hidden;
 }
 
+.strongs-div .strongs-header,
 .dictionary-div .dict-header {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -122,27 +124,32 @@
     background:#eee;
 }
 
+.strongs-header .strongs-search-div,
 .dict-header .dict-search-div {
     border: solid #bebebe 1px;
     border-radius: 5px;
     vertical-align: middle;
 }
 
-    .dict-header .dict-search-div input {
-        border: none;
-        background-color: transparent;
-        text-overflow: ellipsis;
-        padding: 0px 7px;
-    }
+.strongs-header .strongs-search-div input,
+.dict-header .dict-search-div input {
+    border: none;
+    background-color: transparent;
+    text-overflow: ellipsis;
+    padding: 0px 7px;
+}
 
+.strongs-header .strongs-search-div input:focus,
 .dict-header .dict-search-div input:focus {
     outline: none;
 }
 
+.strongs-header span,
 .dict-header span {
     font-weight: bold;
 }
 
+.strongs-search-div::before,
 .dict-search-div:before {
     content: url('../images/search.svg');
     position: relative;
@@ -155,10 +162,17 @@
 
 .dict-main {
     display: grid;
-    grid-template-columns: 1fr 32%;
+    grid-template-columns: 1fr 8em;
     overflow-x: auto;
 }
 
+.strongs-main{
+    display: grid;
+    grid-template-columns: 1fr 4.1em;
+    overflow-x: auto;
+}
+
+.strongs-content,
 .dict-content {
     padding: 10px;
     overflow-x: auto;
@@ -167,6 +181,7 @@
     line-height: 1.5em;
 }
 
+.strongs-numbers-list,
 .dict-words-list {
     border-left: #bebebe 1px solid;
     overflow-y: auto;
@@ -176,6 +191,7 @@
     word-wrap: none;
 }
 
+.numbers-list,
 .dict-words {
     list-style: none;
     word-wrap: none;
@@ -188,6 +204,10 @@
     font-weight: bold;
 }
 
+.strongs-info{
+    margin-bottom: 0.5em;
+    border-bottom: #ccc 0.05em solid;
+}
 /*============== Tooltip section =================*/
 
 .tooltip {

@@ -31,7 +31,11 @@ window.addEventListener("DOMContentLoaded", () => {
     dictWordsList = document.querySelector('.word-list'),
     dictionaryDef =  document.querySelector('.dict-result'),
     dictSearchBox = document.getElementById("dict-search"),
-    dictionaryList = document.querySelector('.dict-words-list')
+    dictionaryList = document.querySelector('.dict-words-list'),
+    strongsNumbersList = document.querySelector('.numbers-list'),
+    strongsList = document.querySelector('.strongs-numbers-list'),
+    strongsDescriptions = document.querySelector('.strongs-result'),
+    strongsSearchBox = document.getElementById("strongs-search")
 
 let bookname = "";
 let noteFolders = [];
@@ -765,7 +769,7 @@ const fetchDictionary = async () => {
   const data =  await ipcRenderer.invoke('get-dictionary'); 
     data.map(row => { 
       let dictWord = document.createElement('li')
-      dictWord.classList.add('dict-words')
+      dictWord.className = 'dict-words';
       dictWord.setAttribute('title', row.topic);
       dictWord.setAttribute('definition', row.definition)
       dictWord.innerHTML = row.topic;
@@ -1061,7 +1065,78 @@ function confirmDialog(cmd, msg, id) {
     });
 }
 
+//========== Strongs Section =================
+const getStrongs = async () => {
+  const data =  await ipcRenderer.invoke('load-strongs');
+  data.map(item => {
+    const numbers = document.createElement('li');
+    numbers.className = 'strongs-numbers';
+    numbers.setAttribute('pronounce', item.pronounce);
+    numbers.setAttribute('description', item.description);
+    numbers.setAttribute('lemma', item.lemma);
+    numbers.setAttribute('xlit', item.xlit);
+    numbers.innerHTML = item.number;
 
+    numbers.addEventListener('click', () => {
+      const description = numbers.getAttribute('description');
+      const pronounce = numbers.getAttribute('pronounce');
+      const lemma = numbers.getAttribute('lemma');
+      const xlit = numbers.getAttribute('xlit');
+      let text = `<div class="strongs-info">
+          <span><b>${lemma}</b></span> 
+          <span style="color:#666;  font-style: italic;">( ${xlit} )</span>, 
+          <span>${pronounce}</span><br/>
+      </div>`;
+      strongsDescriptions.innerHTML = `${text}${description}`;
+      strongsSearchBox.value = numbers.innerText;
+
+      highlighCurrentNumber(numbers)
+    });
+
+    strongsNumbersList.appendChild(numbers);
+  })
+
+}
+
+function highlighCurrentNumber(numbers) {
+  let strongsNumbers = document.querySelectorAll('.strongs-numbers');
+  strongsNumbers.forEach(elem => {
+      if (elem.className.includes('active-word')) {
+          elem.classList.remove('active-word')
+      }
+  })
+  numbers.classList.add('active-word')
+}
+
+function searchStrongs(text){
+  let strongs = document.querySelectorAll('.strongs-numbers');
+  strongs.forEach(elem => {
+      if (elem.innerText.toLowerCase() == text.toLowerCase()) {
+        strongsList.scroll({
+              top: elem.offsetTop - 150,
+              behavior: 'smooth'
+          })
+          setTimeout(active => {
+              elem.classList.add('active-word')
+              elem.click()
+          }, 200)
+      }
+      else
+          elem.classList.remove('active-word')
+  })
+}
+
+function searchStrongsEvent(){
+  strongsSearchBox.addEventListener("keydown", (e) => {
+    if (strongsSearchBox.value !== "") {
+        if (e.key == "Enter") {
+          searchStrongs(strongsSearchBox.value)
+        }
+    }
+  })
+}
+
+//============ End of Strongs Section
 restoreLastOpendBook();
 openBibleDialog(); 
 fetchedBookChapters();
@@ -1080,6 +1155,9 @@ folderCreated();
 fetchDictionary();
 restoreDictionaryLastWord();
 searchDictionaryEvent();
+
+getStrongs();
+searchStrongsEvent();
 
 //================Exposing functions in the main
     const WINDOW_API = {  

@@ -11,6 +11,8 @@
 .editor-wrapper::-webkit-scrollbar,
 .dict-words-list::-webkit-scrollbar,
 .dict-content::-webkit-scrollbar,
+.strongs-numbers-list::-webkit-scrollbar,
+.strongs-content::-webkit-scrollbar,
 .comt-content-div::-webkit-scrollbar,
 .bible-container::-webkit-scrollbar {
     width: 8px
@@ -27,6 +29,8 @@
 .editor-wrapper::-webkit-scrollbar-thumb,
 .dict-words-list::-webkit-scrollbar-thumb,
 .dict-content::-webkit-scrollbar-thumb,
+.strongs-numbers-list::-webkit-scrollbar-thumb,
+.strongs-content::-webkit-scrollbar-thumb,
 .comt-content-div::-webkit-scrollbar-thumb,
 .bible-container::-webkit-scrollbar-thumb,
 .bible-dialog-body::-webkit-scrollbar-thumb {
@@ -39,6 +43,8 @@
     .editor-wrapper::-webkit-scrollbar-thumb:hover,
     .dict-words-list::-webkit-scrollbar-thumb:hover,
     .dict-conten::-webkit-scrollbar-thumb:hover,
+    .strongs-numbers-list::-webkit-scrollbar-thumb:hover,
+    .strongs-conten::-webkit-scrollbar-thumb:hover,
     .comt-content-div::-webkit-scrollbar-thumb:hover,
     .bible-container::-webkit-scrollbar-thumb:hover,
     .bible-dialog-body::-webkit-scrollbar-thumb:hover {
@@ -50,6 +56,8 @@
 .editor-wrapper::-webkit-scrollbar-corner,
 .dict-words-list::-webkit-scrollbar-corner,
 .dict-conten::-webkit-scrollbar-corner,
+.strongs-numbers-list::-webkit-scrollbar-corner,
+.strongs-conten::-webkit-scrollbar-corner,
 .comt-content-div::-webkit-scrollbar-corner,
 .bible-container::-webkit-scrollbar-corner,
 .bible-dialog-body::-webkit-scrollbar-corner {

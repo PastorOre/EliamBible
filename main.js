@@ -72,6 +72,7 @@ function configureApp(){
   const  dctry = path.join(appDirectory, 'smiths.db');
   const  cmtry = path.join(appDirectory, 'gill.db');
   const  note = path.join(noteDirectory, 'ebNote.db');
+  const  strongs = path.join(noteDirectory, 'strongs.db');
 
     if (!fs.existsSync(appDirectory)){
       fs.mkdirSync(appDirectory, { recursive: true });
@@ -103,7 +104,13 @@ function configureApp(){
       fs.copyFile(path.join(__dirname, 'db/ebNote.db'), note, error => {
             if(error) return console.log(error)
       })
-  }
+    }
+
+    if(!fs.existsSync(strongs)) {
+      fs.copyFile(path.join(__dirname, 'db/strongs.db'), strongs, error => {
+            if(error) return console.log(error)
+      })
+    }
 }
 
 function queryDatabase(){
@@ -112,6 +119,7 @@ function queryDatabase(){
   let  cmtrydb = new sqlite3.Database(path.join(appDirectory, 'gill.db'));
   let  dictrydb = new sqlite3.Database(path.join(appDirectory, 'smiths.db'));
   let  notedb = new sqlite3.Database(path.join(noteDirectory, 'ebNote.db'));
+  let  stgsdb = new sqlite3.Database(path.join(noteDirectory, 'strongs.db'));
 
       function getBookChapters(){
         ipcMain.on('book-chapters', (event, args) => {
@@ -376,6 +384,21 @@ function queryDatabase(){
       }
     });
   }
+
+  function getStrongsNumbers(){
+    stgsdb.all(`SELECT * FROM strongs`, (err, rows) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      if(rows[0]){
+        ipcMain.handle('load-strongs', async (err, data) => {
+          return rows;
+        })
+      }
+        
+    });
+  }
       
     getBibleBookNames();
     getBookChapters();
@@ -394,6 +417,7 @@ function queryDatabase(){
     deleteNote();
     createFolder();
     deleteFolder();
+    getStrongsNumbers();
 }
 
 function getMySelections(){
