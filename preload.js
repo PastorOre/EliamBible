@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {  
-    const {app, ipcRenderer, contextBridge } = require('electron');
+    const {ipcRenderer, contextBridge } = require('electron');
 
     const btnOpenBible = document.getElementById('sel-passage'),
     bibleContainer = document.querySelector(".bible-container"),
