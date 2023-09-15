@@ -57,21 +57,21 @@ let currentBookId, prevDictWord = "Aarat";
           .replaceAll(/<div class="v"(.*?)<\/div>/gm, '<span class="v"$1</span>')
   }
 
-  function prefixVerse() {
-    let verses = document.querySelectorAll('.vno');
-    verses.forEach(verse => {
-        verse.innerHTML += '.'
-    });
-}
+//   function prefixVerse() {
+//     let verses = document.querySelectorAll('.vno');
+//     verses.forEach(verse => {
+//         verse.innerHTML += '.'
+//     });
+// }
 
-function indexMatchingText(ele, text) {
-  for (var i = 0; i < ele.length; i++) {
-      if (ele[i].childNodes[0].nodeValue === text) {
-          return i;
-      }
-  }
-  return undefined;
-}
+// function indexMatchingText(ele, text) {
+//   for (var i = 0; i < ele.length; i++) {
+//       if (ele[i].childNodes[0].nodeValue === text) {
+//           return i;
+//       }
+//   }
+//   return undefined;
+// }
 
 function highlightSearchText(text) {
   let element = document.querySelectorAll('.search-text')
@@ -1085,7 +1085,7 @@ const getStrongs = async () => {
       let text = `<div class="strongs-info">
           <span><b>${lemma}</b></span> 
           <span style="color:#666;  font-style: italic;">( ${xlit} )</span>, 
-          <span>${pronounce}</span><br/>
+          <span title="Pronunciation">${pronounce}</span><br/>
       </div>`;
       strongsDescriptions.innerHTML = `${text}${description}`;
       strongsSearchBox.value = numbers.innerText;

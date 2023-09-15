@@ -420,6 +420,14 @@ function queryDatabase(){
     getStrongsNumbers();
 }
 
+function enablePasteMenu() {
+  if(clipboardText){
+    edtmenu.getMenuItemById('paste').enabled = true;
+  }else{
+    edtmenu.getMenuItemById('paste').enabled = false;
+  }
+}
+
 function getMySelections(){
   ipcMain.on('selection', (evt, args) =>{ 
      if(parseInt(args) > 0){
@@ -429,13 +437,11 @@ function getMySelections(){
       edtmenu.getMenuItemById('cut').enabled = false
       edtmenu.getMenuItemById('copy').enabled = false
      }
+
+      enablePasteMenu();
   });
 
-    if(clipboardText){
-      edtmenu.getMenuItemById('paste').enabled = true;
-    }else{
-      edtmenu.getMenuItemById('paste').enabled = false;
-    } 
+      enablePasteMenu();
 }
 
 function createEditorMenu() {
