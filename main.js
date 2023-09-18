@@ -72,7 +72,7 @@ function configureApp(){
   const  dctry = path.join(appDirectory, 'smiths.db');
   const  cmtry = path.join(appDirectory, 'gill.db');
   const  note = path.join(noteDirectory, 'ebNote.db');
-  const  strongs = path.join(noteDirectory, 'strongs.db');
+  const  strongs = path.join(appDirectory, 'strongs.db');
 
     if (!fs.existsSync(appDirectory)){
       fs.mkdirSync(appDirectory, { recursive: true });
@@ -119,7 +119,7 @@ function queryDatabase(){
   let  cmtrydb = new sqlite3.Database(path.join(appDirectory, 'gill.db'));
   let  dictrydb = new sqlite3.Database(path.join(appDirectory, 'smiths.db'));
   let  notedb = new sqlite3.Database(path.join(noteDirectory, 'ebNote.db'));
-  let  stgsdb = new sqlite3.Database(path.join(noteDirectory, 'strongs.db'));
+  let  stgsdb = new sqlite3.Database(path.join(appDirectory, 'strongs.db'));
 
       function getBookChapters(){
         ipcMain.on('book-chapters', (event, args) => {
