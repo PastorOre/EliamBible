@@ -29,7 +29,7 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^25.5.0",
-    "electron-builder": "^24.6.3"
+    "electron-builder": "^24.6.4"
   },
   "dependencies": {
     "sqlite3": "^5.1.6"
