@@ -86,11 +86,8 @@ function setIconActive(pos) {
             sidebarIcons[i].classList.remove("focus");
         } 
         sidebarIcons[i].addEventListener('click', (e) => {
-            for(let icon of sidebarIcons) {
-                icon.classList.remove("focus");
-                SetPanelActive(i);  
-                sidebarIcons[i].classList.add("focus");
-            }
+            SetPanelActive(i);
+            sidebarIcons[i].classList.add("focus");     
         })
     }
 
