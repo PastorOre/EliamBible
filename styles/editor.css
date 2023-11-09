@@ -15,9 +15,15 @@
 .eliam-editor{
     padding: 0.8em;
     cursor: text;
-    font-family: 'system-ui';
+    font-family: 'calibri';
     font-size: 1em;
     height: 100%;
+    line-height: 1.5;
+}
+
+.eliam-editor > p{
+    font-size: 1.2em; 
+    font-family: 'calibri';
     line-height: 1.5;
 }
 

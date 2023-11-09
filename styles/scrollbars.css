@@ -14,7 +14,8 @@
 .strongs-numbers-list::-webkit-scrollbar,
 .strongs-content::-webkit-scrollbar,
 .comt-content-div::-webkit-scrollbar,
-.bible-container::-webkit-scrollbar {
+.bible-container::-webkit-scrollbar,
+.notes-container::-webkit-scrollbar {
     width: 8px
 }
 
@@ -33,7 +34,8 @@
 .strongs-content::-webkit-scrollbar-thumb,
 .comt-content-div::-webkit-scrollbar-thumb,
 .bible-container::-webkit-scrollbar-thumb,
-.bible-dialog-body::-webkit-scrollbar-thumb {
+.bible-dialog-body::-webkit-scrollbar-thumb,
+.notes-container::-webkit-scrollbar-thumb {
     background-color: #858383;
     -webkit-appearance: none;
 }
@@ -47,7 +49,8 @@
     .strongs-conten::-webkit-scrollbar-thumb:hover,
     .comt-content-div::-webkit-scrollbar-thumb:hover,
     .bible-container::-webkit-scrollbar-thumb:hover,
-    .bible-dialog-body::-webkit-scrollbar-thumb:hover {
+    .bible-dialog-body::-webkit-scrollbar-thumb:hover,
+    .notes-container::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
     }
 
@@ -60,6 +63,7 @@
 .strongs-conten::-webkit-scrollbar-corner,
 .comt-content-div::-webkit-scrollbar-corner,
 .bible-container::-webkit-scrollbar-corner,
-.bible-dialog-body::-webkit-scrollbar-corner {
+.bible-dialog-body::-webkit-scrollbar-corner,
+.notes-container::-webkit-scrollbar-corner {
     background: transparent;
 }

@@ -340,7 +340,7 @@ function fontsFamily(wrapper){
         fonts.appendChild(font);
     });
 
-    fonts.selectedIndex = 17;
+    fonts.selectedIndex = 4;
 
     fonts.addEventListener('change', () => {
         changeFont(fonts);

@@ -467,6 +467,7 @@ function displayNotes(args){
     });
 }
 //======== Display folders in folders list
+
 function displayFolders(folder){
   const folderCard = document.createElement('div');
   noteDiv = document.querySelectorAll('.note-head button'),
