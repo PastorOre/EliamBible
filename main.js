@@ -437,8 +437,7 @@ function getMySelections(){
       edtmenu.getMenuItemById('cut').enabled = false
       edtmenu.getMenuItemById('copy').enabled = false
      }
-
-      enablePasteMenu();
+      // enablePasteMenu();
   });
 
       enablePasteMenu();

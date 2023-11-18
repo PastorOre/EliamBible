@@ -503,6 +503,7 @@ function displayFolders(folder){
       folderDeleted();
     } 
 
+    document.querySelector('.folder-opened').textContent = folderCard.getAttribute('name');
   });
 
   folderCard.addEventListener('mouseover', () => {

@@ -13,8 +13,12 @@
     background: #eee;
 }
 
-.note-reserved{
+.folder-opened{
     flex: 1;
+    padding-right: .5rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .note-head button:focus{

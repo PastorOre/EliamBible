@@ -111,6 +111,7 @@ noteDiv.forEach((btn, index) => {
                 noteDiv[1].style.display = 'block';
                 noteDiv[2].style.display = 'block';
                 noteDiv[3].style.display = 'none';
+                document.querySelector('.folder-opened').textContent = "";
                 SetNotePanelActive(0)
               break;
               case 1:
