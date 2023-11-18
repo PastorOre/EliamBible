@@ -455,7 +455,7 @@ function displayNotes(args){
           confirmDialog('delete-note', msg, noteCard.getAttribute('nId')) 
           noteDeleted(); //delete note from database by clicking on the delete button
       }
-
+      document.querySelector('.folder-opened').textContent = "";
     });
 
     noteCard.addEventListener('mouseover', () => {
