@@ -15,7 +15,7 @@
 .strongs-content::-webkit-scrollbar,
 .comt-content-div::-webkit-scrollbar,
 .bible-container::-webkit-scrollbar,
-.notes-container::-webkit-scrollbar {
+.note-card-container::-webkit-scrollbar {
     width: 8px
 }
 
@@ -35,7 +35,7 @@
 .comt-content-div::-webkit-scrollbar-thumb,
 .bible-container::-webkit-scrollbar-thumb,
 .bible-dialog-body::-webkit-scrollbar-thumb,
-.notes-container::-webkit-scrollbar-thumb {
+.note-card-container::-webkit-scrollbar-thumb {
     background-color: #858383;
     -webkit-appearance: none;
 }
@@ -50,7 +50,7 @@
     .comt-content-div::-webkit-scrollbar-thumb:hover,
     .bible-container::-webkit-scrollbar-thumb:hover,
     .bible-dialog-body::-webkit-scrollbar-thumb:hover,
-    .notes-container::-webkit-scrollbar-thumb:hover {
+    .note-card-containerr::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
     }
 
@@ -64,6 +64,6 @@
 .comt-content-div::-webkit-scrollbar-corner,
 .bible-container::-webkit-scrollbar-corner,
 .bible-dialog-body::-webkit-scrollbar-corner,
-.notes-container::-webkit-scrollbar-corner {
+.note-card-container::-webkit-scrollbar-corner {
     background: transparent;
 }

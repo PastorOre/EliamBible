@@ -24,6 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
     folderSelect = document.querySelector(".folders-combo"),
     folderNameLabel = document.querySelector(".folder-name-label"),
     noteContainer = document.querySelector(".notes-container"),
+    noteCardContainer = document.querySelector(".note-card-container"),
     inputOverlay = document.querySelector('.input-overlay'),
     confirmOverlay = document.querySelector('.confirm-overlay'),
     dialogFooter = document.getElementById('fileDialog-footer'),
@@ -436,7 +437,7 @@ function displayNotes(args){
                 </div>
                 <div class="note-date">${args.time}</div>`;
     noteCard.innerHTML = html;
-    noteContainer.appendChild(noteCard);
+    noteCardContainer.appendChild(noteCard);
     let btnDelete = noteCard.querySelector('.delete-note');
 
     noteCard.addEventListener('click', (evt) => {
@@ -485,8 +486,8 @@ function displayFolders(folder){
   let btnDelete = folderCard.querySelector('.delete-folder');
 
   folderCard.addEventListener('click', (evt) =>{
-    while (noteContainer.firstChild) {
-      noteContainer.removeChild(noteContainer.firstChild)
+    while ( noteCardContainer.firstChild) {
+      noteCardContainer.removeChild( noteCardContainer.firstChild)
     }
     if(evt.target.className == 'folder-name'){
       activeContainer(1);

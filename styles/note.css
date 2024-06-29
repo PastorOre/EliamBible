@@ -1,6 +1,7 @@
 /**============= Note Section ==============*/
 
 .note-div {
+    /* display: none; */
     grid-template-rows: auto 1fr;
     overflow: hidden;
 }
@@ -82,16 +83,22 @@
     padding: 0.5em;
 }
 .notes-container {
-    /* position:absolute; */
+    position:relative;
     display: none;
-    grid-gap: 0.5em;
-    grid-template-columns: repeat(2, 1fr);
-    max-height: 96%;
+    height: 100%;
     overflow-y: auto;
     padding: 0.5em;
 }
 
-
+.note-card-container{
+    position: absolute;
+    display: grid;
+    grid-gap: 0.5em;
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 0.5em;
+}
 .editor-container {
     /* position:absolute; */
     display: none;
