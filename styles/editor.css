@@ -72,11 +72,14 @@ select:focus{
 }
 
 .folder-info{
+    position: absolute;
     display: inline;
+    width: 100%;
     max-height: 2em;
     padding: 0.1em 0.5em;
     border-top:0.05em solid #ccc;
     background-color: #eee;
+    bottom: 0;
 }
 
 .folders-combo {

@@ -120,9 +120,9 @@ noteDiv.forEach((btn, index) => {
               case 2:
                 noteDiv[0].style.display = 'block';
                 noteDiv[1].style.display = 'none';
-                noteDiv[2].style.display = 'none'
+                noteDiv[2].style.display = 'none';
                 noteDiv[3].style.display = 'block';
-                SetNotePanelActive(2);
+                SetNotePanelActive(3);
                 window.api.getNoteFolders();
               break;
               case 3:
