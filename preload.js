@@ -1,3 +1,5 @@
+const { text } = require('express');
+
 window.addEventListener("DOMContentLoaded", () => {  
     const {ipcRenderer, contextBridge } = require('electron');
 
@@ -36,12 +38,16 @@ window.addEventListener("DOMContentLoaded", () => {
     strongsNumbersList = document.querySelector('.numbers-list'),
     strongsList = document.querySelector('.strongs-numbers-list'),
     strongsDescriptions = document.querySelector('.strongs-result'),
-    strongsSearchBox = document.getElementById("strongs-search")
+    strongsSearchBox = document.getElementById("strongs-search"),
+    popup = document.getElementById('popup');
+    btnCopy = document.querySelector('.btnCopy');
 
 let bookname = "";
 let noteFolders = [];
 let bookID = 0;
 let bookChapter = 0;
+let chapterVerse = 0
+let verserText = null;
 let clikedVerse = 0; 
 let searchedText = "";
 let folderIndex = 0;
@@ -146,6 +152,38 @@ function myTooltip(elem) {
   toolTip.classList.add('show-tooltip')
 }
 
+function myPopup(elem) {
+  const rect = elem.getBoundingClientRect();
+  const top = rect.top - 10;
+  popup.style.top = top + 'px';
+  popup.style.display = 'block';  
+
+  btnCopy.addEventListener('click', () => {
+      let selectedVerse = bookName.textContent +" "+ bookChapter +":"+ chapterVerse +"\n"+ verserText; 
+     // navigator.clipboard.writeText(selectedVerse);
+      copyTextToClipboard(selectedVerse);
+      hidePopup();
+  });
+}
+
+function hidePopup(){
+  popup.style.display = 'none';
+}
+
+function copyTextToClipboard(text) {
+  if (!navigator.clipboard) {
+    copyTextToClipboard(text);
+    return;
+  }
+    navigator.clipboard.writeText(text).then((error) => {
+        if(error){
+          console.error('Async: Could not copy text: ', err);
+        }else{
+          console.log('Async: Copying to clipboard was successful!');
+        }
+    })
+}
+
 function getCommentryRef(myclass) {
   let cmtryRef = comtryContent.querySelectorAll(myclass);
   cmtryRef.forEach(ref => {
@@ -177,7 +215,7 @@ function activeContainer(pos) {
           noteContainers[i].classList.remove("active-note");
       }
   }
-  noteContainers[pos].classList.add("active-note")
+  noteContainers[pos].classList.add("active-note");
 }
 
 const clickedLink = (ref) => {
@@ -219,7 +257,7 @@ const clickedLink = (ref) => {
                   bibleBooks.removeChild(bibleBooks.firstChild)
                 }
 
-                introductionToBooks(item.bookID)
+                introductionToBooks(item.bookID);
             });  
             
             let bks = books.getAttribute('id')
@@ -583,6 +621,7 @@ function displayCommentaryOnVerse(args) {
           ipcRenderer.send('intro-to-books', parseInt(`${bookId}0`));
       });
 
+      hidePopup();
   }
 //========= Show book names dialog
     function openBibleDialog(){
@@ -648,16 +687,21 @@ function navigateBack() {
     while (comtryContent.firstChild) {
       comtryContent.removeChild(comtryContent.firstChild)
     }
+    try{
       navigation.push(navigation.shift()) 
-      // if (navigation.length <= 1) return;
-      let bookId = navigation[0].bookId;
-      let book = navigation[0].book;
-      let chapter = navigation[0].chapter;
-      let text = navigation[0].text;
-
-      displayPassage(bookId, book, chapter, text)
-      navigation.push(navigation.shift());
-      getCmntryOnChapters(bookId, chapter);
+      if (navigation.length <= 1) return;
+        let bookId = navigation[0].bookId;
+        let book = navigation[0].book;
+        let chapter = navigation[0].chapter;
+        let text = navigation[0].text;
+  
+          displayPassage(bookId, book, chapter, text)
+          navigation.push(navigation.shift());
+          getCmntryOnChapters(bookId, chapter);
+    }catch(e){
+      console.log(e);
+    }
+      
   });
 }
 
@@ -683,9 +727,13 @@ function getClickedVerse() {
         for (let i = 0; i < verses.length; i++) {
           verses[i].classList.remove("highlighted");
         }
-        verse.classList.add("highlighted") // hightlight clicked vers
+          verse.classList.add("highlighted") // hightlight clicked vers
           SetPanelActive(0);
           setIconActive(0);
+
+          getVerseText(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verse.getAttribute('id'));
+          myPopup(verse);
+          fetchVersetext();
       })
     })
 }
@@ -707,15 +755,36 @@ function displaFootnote(){
       elem.innerHTML = supNote;
   });
 }
+//========== Get verse text ==========
+function getVerseText(bookId, chapter, verse) {
+  let obj = {
+    bookId: bookId,
+    chapter: chapter,
+    verse: verse
+  }
+  ipcRenderer.send('get-verse-text', obj)
+}
+
+function fetchVersetext(){
+  ipcRenderer.on('verse-text', (evt, data) => {
+      data.forEach((row) => {
+        bookChapter = row.chapter;
+        chapterVerse = row.verse;
+        verserText = row.info;
+         // console.log(bookName.textContent +" "+ row.chapter +":"+ row.verse +"\n"+ row.info); 
+      });
+  })
+}
+
 //========== Get book chapters
 function getBibleChapter(bookId, chapterNumber) {
   let obj = {
       bookId: bookId,
       chapter: chapterNumber
   }
- if(obj.chapter == 0){
-    return undefined;
- }
+  if(obj.chapter == 0){
+      return undefined;
+  }
 
   ipcRenderer.send('book-passage', obj)
   getCmntryOnChapters(bookId, chapterNumber);
@@ -1138,6 +1207,23 @@ function searchStrongsEvent(){
     }
   })
 }
+
+//=========== Mouswheel Events ===========
+
+let wheelEventEndTimeout = null;
+window.addEventListener('wheel', () => {
+    hidePopup();
+    // clearTimeout(wheelEventEndTimeout);
+    // wheelEventEndTimeout = setTimeout(() => {
+    //     let verses =  bibleContent.querySelectorAll('.v[id]');
+    //     verses.forEach((vers) => {
+    //         if(vers.classList.contains('highlighted')){
+    //           myPopup(vers)
+    //         }
+    //     });
+    // }, 100);
+});
+
 
 //============ End of Strongs Section
 restoreLastOpendBook();
