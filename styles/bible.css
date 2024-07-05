@@ -207,3 +207,11 @@ h5 {
 .highlighted{
     background-color:#e3e2e2;
 }
+
+.underlined{
+    text-decoration: underline;
+}
+
+.no-underline {
+    text-decoration: none;
+}

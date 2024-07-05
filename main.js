@@ -38,7 +38,7 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
-   mainWindow.webContents.openDevTools();
+  //  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -180,6 +180,18 @@ function queryDatabase(){
         });
       });
     }
+
+    // function updateVerse(){
+    //   ipcMain.on('update-verse', async (err, data) =>{
+    //     bibledb.run(`UPDATE verses SET info = ? WHERE bookNum = ? AND chapter = ? AND verse = ?`, [data.bkId, data.chapter, data.verse], (err) =>{
+    //       if (err) {
+    //         console.error(err);
+    //         return;
+    //       }
+    //       // mainWindow.webContents.send('verse-updated', data);
+    //     })
+    //   });
+    // }
 
     function getBibleReference(){
       ipcMain.on('get-bible-reference', (event, args) => {
@@ -434,6 +446,7 @@ function queryDatabase(){
     deleteFolder();
     getStrongsNumbers();
     getChapterVerse();
+    // updateVerse();
 }
 
 function enablePasteMenu() {

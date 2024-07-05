@@ -39,8 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
     strongsList = document.querySelector('.strongs-numbers-list'),
     strongsDescriptions = document.querySelector('.strongs-result'),
     strongsSearchBox = document.getElementById("strongs-search"),
-    popup = document.getElementById('popup');
+    popup = document.getElementById('popup'),
     btnCopy = document.querySelector('.btnCopy');
+    // btnUnderline = document.querySelector('.btnUnderline');
 
 let bookname = "";
 let noteFolders = [];
@@ -48,6 +49,7 @@ let bookID = 0;
 let bookChapter = 0;
 let chapterVerse = 0
 let verserText = null;
+let underlinedVerse = null;
 let clikedVerse = 0; 
 let searchedText = "";
 let folderIndex = 0;
@@ -64,21 +66,6 @@ let currentBookId, prevDictWord = "Aarat";
           .replaceAll(/<div class="v"(.*?)<\/div>/gm, '<span class="v"$1</span>')
   }
 
-//   function prefixVerse() {
-//     let verses = document.querySelectorAll('.vno');
-//     verses.forEach(verse => {
-//         verse.innerHTML += '.'
-//     });
-// }
-
-// function indexMatchingText(ele, text) {
-//   for (var i = 0; i < ele.length; i++) {
-//       if (ele[i].childNodes[0].nodeValue === text) {
-//           return i;
-//       }
-//   }
-//   return undefined;
-// }
 
 function highlightSearchText(text) {
   let element = document.querySelectorAll('.search-text')
@@ -152,6 +139,8 @@ function myTooltip(elem) {
   toolTip.classList.add('show-tooltip')
 }
 
+//==================Copy popup========
+
 function myPopup(elem) {
   const rect = elem.getBoundingClientRect();
   const top = rect.top - 10;
@@ -163,7 +152,24 @@ function myPopup(elem) {
      // navigator.clipboard.writeText(selectedVerse);
       copyTextToClipboard(selectedVerse);
       hidePopup();
+
   });
+
+  // btnUnderline.addEventListener('click', () => {
+  //   let obj = {
+  //     bookId: bookID,
+  //     chapter:bookChapter,
+  //     verse:chapterVerse
+  //   }
+  //     if(underlinedVerse.classList.contains('underlined')){
+  //       underlinedVerse.classList.remove('underlined');
+  //       ipcRenderer.send('underline', obj);
+  //     }else{
+  //       underlinedVerse.classList.add('underlined');
+  //     } 
+
+  //     // console.log(obj)
+  // });
 }
 
 function hidePopup(){
@@ -183,6 +189,8 @@ function copyTextToClipboard(text) {
         }
     })
 }
+
+//============== End popup
 
 function getCommentryRef(myclass) {
   let cmtryRef = comtryContent.querySelectorAll(myclass);
@@ -722,10 +730,12 @@ function getClickedVerse() {
           break;
        }
           clikedVerse = verseId;
+          underlinedVerse = verse;
+
           getCmntryOnVerses(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verseId);
 
-        for (let i = 0; i < verses.length; i++) {
-          verses[i].classList.remove("highlighted");
+          for (let i = 0; i < verses.length; i++) {
+          verses[i].classList.remove("highlighted");;
         }
           verse.classList.add("highlighted") // hightlight clicked vers
           SetPanelActive(0);
@@ -734,6 +744,7 @@ function getClickedVerse() {
           getVerseText(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verse.getAttribute('id'));
           myPopup(verse);
           fetchVersetext();
+          // verse.style.textDecoration = "underline";
       })
     })
 }
