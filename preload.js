@@ -148,7 +148,6 @@ function myPopup(elem) {
 
   btnCopy.addEventListener('click', () => {
       let selectedVerse = bookName.textContent +" "+ bookChapter +":"+ chapterVerse +"\n"+ verserText; 
-     // navigator.clipboard.writeText(selectedVerse);
       copyTextToClipboard(selectedVerse);
       hidePopup();
   });
@@ -219,6 +218,15 @@ async function fetchBookmarks(){
     });
   }
  }
+
+ function updateBookmarkTooltip(){
+    if(bookmarkedVerse!== null && bookmarkedVerse.classList.contains("bookmarked")){
+        btnBookmark.setAttribute("title", "Unbookmark verse");
+    }else{
+      btnBookmark.setAttribute("title", "Bookmark verse");
+    }
+ }
+
 //============== End popup
 
 function getCommentryRef(myclass) {
@@ -776,6 +784,8 @@ function getClickedVerse() {
           myPopup(verse);
           fetchVersetext();
           // verse.style.textDecoration = "underline";
+
+          updateBookmarkTooltip();
       })
     })
 }
@@ -813,7 +823,6 @@ function fetchVersetext(){
         bookChapter = row.chapter;
         chapterVerse = row.verse;
         verserText = row.info;
-         // console.log(bookName.textContent +" "+ row.chapter +":"+ row.verse +"\n"+ row.info); 
       });
   })
 }
@@ -1252,18 +1261,8 @@ function searchStrongsEvent(){
 
 //=========== Mouswheel Events ===========
 
-let wheelEventEndTimeout = null;
 window.addEventListener('wheel', () => {
     hidePopup();
-    // clearTimeout(wheelEventEndTimeout);
-    // wheelEventEndTimeout = setTimeout(() => {
-    //     let verses =  bibleContent.querySelectorAll('.v[id]');
-    //     verses.forEach((vers) => {
-    //         if(vers.classList.contains('highlighted')){
-    //           myPopup(vers)
-    //         }
-    //     });
-    // }, 100);
 });
 
 
