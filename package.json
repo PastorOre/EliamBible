@@ -1,7 +1,7 @@
 {
   "name": "eliam-bible",
   "productName": "Eliam Bible",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Personal Study Bible",
   "main": "main.js",
   "scripts": {

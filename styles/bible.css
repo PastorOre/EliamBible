@@ -208,10 +208,15 @@ h5 {
     background-color:#e3e2e2;
 }
 
-.underlined{
-    text-decoration: underline;
+.bookmarked{
+    background-color: powderblue;
 }
 
-.no-underline {
-    text-decoration: none;
+.btnBookmark{
+    background-color: powderblue;
+}
+
+.btnCopy{
+    background-color: transparent;
+    padding: 0;
 }

@@ -1,5 +1,3 @@
-const { text } = require('express');
-
 window.addEventListener("DOMContentLoaded", () => {  
     const {ipcRenderer, contextBridge } = require('electron');
 
@@ -40,8 +38,8 @@ window.addEventListener("DOMContentLoaded", () => {
     strongsDescriptions = document.querySelector('.strongs-result'),
     strongsSearchBox = document.getElementById("strongs-search"),
     popup = document.getElementById('popup'),
-    btnCopy = document.querySelector('.btnCopy');
-    // btnUnderline = document.querySelector('.btnUnderline');
+    btnCopy = document.querySelector('.btnCopy'),
+    btnBookmark = document.querySelector('.btnBookmark');
 
 let bookname = "";
 let noteFolders = [];
@@ -49,7 +47,8 @@ let bookID = 0;
 let bookChapter = 0;
 let chapterVerse = 0
 let verserText = null;
-let underlinedVerse = null;
+let bookmarkedVerse = null;
+let newContent = null;
 let clikedVerse = 0; 
 let searchedText = "";
 let folderIndex = 0;
@@ -152,24 +151,8 @@ function myPopup(elem) {
      // navigator.clipboard.writeText(selectedVerse);
       copyTextToClipboard(selectedVerse);
       hidePopup();
-
   });
 
-  // btnUnderline.addEventListener('click', () => {
-  //   let obj = {
-  //     bookId: bookID,
-  //     chapter:bookChapter,
-  //     verse:chapterVerse
-  //   }
-  //     if(underlinedVerse.classList.contains('underlined')){
-  //       underlinedVerse.classList.remove('underlined');
-  //       ipcRenderer.send('underline', obj);
-  //     }else{
-  //       underlinedVerse.classList.add('underlined');
-  //     } 
-
-  //     // console.log(obj)
-  // });
 }
 
 function hidePopup(){
@@ -190,6 +173,52 @@ function copyTextToClipboard(text) {
     })
 }
 
+function bookmarkVerse(){
+  btnBookmark.addEventListener('click', () => {
+      if(!bookmarkedVerse.classList.contains('bookmarked')){
+        bookmarkedVerse.classList.add('bookmarked');
+        bookmarkedVerse.classList.remove('highlighted');
+
+        let obj = {
+          bookId: bookID,
+          chapter:bookChapter,
+          verse:bookmarkedVerse.getAttribute('id'),
+          color:'powderblue'
+        }
+        ipcRenderer.send('save-bookmark', obj);
+
+      }else if(bookmarkedVerse.classList.contains('bookmarked')){
+        bookmarkedVerse.classList.remove('bookmarked');
+
+        let id = bookmarkedVerse.getAttribute('key');
+        ipcRenderer.send('unbookmarked', id);
+      }
+
+      hidePopup();
+  });
+}
+
+async function fetchBookmarks(){
+  let content = document.getElementById('content');
+  let vs = content.querySelectorAll('.v');
+  let book = document.getElementById('book').getAttribute('bookId');
+  let chapter = document.getElementById('chapter').getAttribute('key');
+
+  const data =  await ipcRenderer.invoke('get-bookmarks');
+  if(data){
+      data.forEach((bk) => {
+        if(book == bk.bookNum && chapter == bk.chapter) {
+          vs.forEach((v) => {
+            if(v.getAttribute("id") == bk.verse){
+              v.classList.add("bookmarked");
+
+              v.setAttribute("key", bk.id)
+            } 
+        });
+      } 
+    });
+  }
+ }
 //============== End popup
 
 function getCommentryRef(myclass) {
@@ -287,7 +316,7 @@ const clickedLink = (ref) => {
           chapter.className = "book-chapters";
           chapter.setAttribute('id', data.chapter);
           chapter.setAttribute('info', data.info)
-          btnBack.style.display = 'grid';
+          btnBack.style.display = 'grid';      
 
           chapter.addEventListener('click', (e) => {
               booksDialog.classList.remove("active");
@@ -320,9 +349,10 @@ const clickedLink = (ref) => {
         
                   clickedLink(ref);
               });
-            })
+            });
 
-        });    
+        });  
+        
       });
     }
 
@@ -630,6 +660,7 @@ function displayCommentaryOnVerse(args) {
       });
 
       hidePopup();
+      fetchBookmarks();
   }
 //========= Show book names dialog
     function openBibleDialog(){
@@ -730,7 +761,7 @@ function getClickedVerse() {
           break;
        }
           clikedVerse = verseId;
-          underlinedVerse = verse;
+          bookmarkedVerse = verse;
 
           getCmntryOnVerses(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verseId);
 
@@ -1251,6 +1282,7 @@ fetchBibleReferences();
 fetchNoteFoders();
 fetchNotes();
 folderCreated();
+bookmarkVerse();
 
 fetchDictionary();
 restoreDictionaryLastWord();
@@ -1258,6 +1290,7 @@ searchDictionaryEvent();
 
 getStrongs();
 searchStrongsEvent();
+fetchBookmarks();
 
 //================Exposing functions in the main
     const WINDOW_API = {  

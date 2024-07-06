@@ -398,7 +398,10 @@ body {
 
 #popup button{
     cursor: pointer;
-    background-color: transparent;
+    width: 28px;
+    height: 22px;
+    /* background-color: transparent; */
     border: none;
     color: #fff;
+    margin: 0.1em;
 }

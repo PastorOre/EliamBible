@@ -38,7 +38,7 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
-  //  mainWindow.webContents.openDevTools();
+   mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -73,6 +73,7 @@ function configureApp(){
   const  cmtry = path.join(appDirectory, 'gill.db');
   const  note = path.join(noteDirectory, 'ebNote.db');
   const  strongs = path.join(appDirectory, 'strongs.db');
+  const bookmarks = path.join(noteDirectory, 'ebBookmark.db');
 
     if (!fs.existsSync(appDirectory)){
       fs.mkdirSync(appDirectory, { recursive: true });
@@ -111,15 +112,22 @@ function configureApp(){
             if(error) return console.log(error)
       })
     }
+
+    if(!fs.existsSync(bookmarks)) {
+      fs.copyFile(path.join(__dirname, 'db/ebBookmark.db'), bookmarks, error => {
+        if(error) return console.log(error);
+      });
+    }
 }
 
 function queryDatabase(){
 
-  let  bibledb = new sqlite3.Database(path.join(appDirectory, 'nkjv.db'));
-  let  cmtrydb = new sqlite3.Database(path.join(appDirectory, 'gill.db'));
-  let  dictrydb = new sqlite3.Database(path.join(appDirectory, 'smiths.db'));
-  let  notedb = new sqlite3.Database(path.join(noteDirectory, 'ebNote.db'));
-  let  stgsdb = new sqlite3.Database(path.join(appDirectory, 'strongs.db'));
+  let bibledb = new sqlite3.Database(path.join(appDirectory, 'nkjv.db'));
+  let cmtrydb = new sqlite3.Database(path.join(appDirectory, 'gill.db'));
+  let dictrydb = new sqlite3.Database(path.join(appDirectory, 'smiths.db'));
+  let notedb = new sqlite3.Database(path.join(noteDirectory, 'ebNote.db'));
+  let stgsdb = new sqlite3.Database(path.join(appDirectory, 'strongs.db'));
+  let bkdb = new sqlite3.Database(path.join(noteDirectory, 'ebBookmark.db'));
 
       function getBookChapters(){
         ipcMain.on('book-chapters', (event, args) => {
@@ -180,18 +188,6 @@ function queryDatabase(){
         });
       });
     }
-
-    // function updateVerse(){
-    //   ipcMain.on('update-verse', async (err, data) =>{
-    //     bibledb.run(`UPDATE verses SET info = ? WHERE bookNum = ? AND chapter = ? AND verse = ?`, [data.bkId, data.chapter, data.verse], (err) =>{
-    //       if (err) {
-    //         console.error(err);
-    //         return;
-    //       }
-    //       // mainWindow.webContents.send('verse-updated', data);
-    //     })
-    //   });
-    // }
 
     function getBibleReference(){
       ipcMain.on('get-bible-reference', (event, args) => {
@@ -426,6 +422,46 @@ function queryDatabase(){
         
     });
   }
+
+  function saveBookmark(){
+    ipcMain.on('save-bookmark', async (err, data) =>{
+     bkdb.run(`INSERT INTO bookmark (bookNum, chapter, verse, color) VALUES (?,?,?,?)`, [data.bookId, data.chapter, data.verse, data.color], (err) =>{
+        if (err) {
+          console.error(err);
+          return;
+        }else{
+          console.log("Bookmark successfully");
+        }
+        // mainWindow.webContents.send('verse bookmarked', data);
+      })
+    });
+  }
+
+  function getBookmark(){
+    bkdb.all(`SELECT * FROM bookmark`, (err, rows) =>{
+      if (err) {
+        console.error(err);
+        return;
+      }
+      if(rows){
+        ipcMain.handle('get-bookmarks', async (err, data) => {
+          return rows;
+        })
+      }
+    });
+  }
+
+  function deleteBookmark(){
+    ipcMain.on('unbookmarked', async (err, data) =>{
+      bkdb.run(`DELETE FROM bookmark WHERE id = ?`, [data], (err) =>{
+        if (err) {
+          console.error(err);
+          return;
+        }
+      })
+    });
+   
+  }
       
     getBibleBookNames();
     getBookChapters();
@@ -447,6 +483,9 @@ function queryDatabase(){
     getStrongsNumbers();
     getChapterVerse();
     // updateVerse();
+    saveBookmark();
+    getBookmark();
+    deleteBookmark();
 }
 
 function enablePasteMenu() {
