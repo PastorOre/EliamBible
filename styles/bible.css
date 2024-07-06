@@ -216,11 +216,23 @@ h5 {
     background-color: powderblue;
 }
 
+.btnBookmark_y{
+    background-color: lightpink;
+}
+
+.bookmarked_y{
+    background-color: lightpink;
+}
+
+.btnBookmark_g{
+    background-color: lightgreen;
+}
+
+.bookmarked_g{
+    background-color: lightgreen;
+}
+
 .btnCopy{
-    /* display: inline-flex;
-    justify-content: center;
-    align-items: center; */
-    /* background-color: rgba(0, 0, 0, 0.6); */
     background-image: url('../images/copy.svg');
     display: inline-block;
     background-size: cover;

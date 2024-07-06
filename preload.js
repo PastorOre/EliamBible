@@ -39,7 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
     strongsSearchBox = document.getElementById("strongs-search"),
     popup = document.getElementById('popup'),
     btnCopy = document.querySelector('.btnCopy'),
-    btnBookmark = document.querySelector('.btnBookmark');
+    btnBookmarkBlue = document.querySelector('.btnBookmark'),
+    btnBookmarkGreen = document.querySelector('.btnBookmark_g'),
+    btnBookmarkYellow = document.querySelector('.btnBookmark_y');
 
 let bookname = "";
 let noteFolders = [];
@@ -48,6 +50,7 @@ let bookChapter = 0;
 let chapterVerse = 0
 let verserText = null;
 let bookmarkedVerse = null;
+let bookmarkClassName = null;
 let newContent = null;
 let clikedVerse = 0; 
 let searchedText = "";
@@ -173,28 +176,41 @@ function copyTextToClipboard(text) {
 }
 
 function bookmarkVerse(){
-  btnBookmark.addEventListener('click', () => {
-      if(!bookmarkedVerse.classList.contains('bookmarked')){
-        bookmarkedVerse.classList.add('bookmarked');
-        bookmarkedVerse.classList.remove('highlighted');
-
-        let obj = {
-          bookId: bookID,
-          chapter:bookChapter,
-          verse:bookmarkedVerse.getAttribute('id'),
-          color:'powderblue'
-        }
-        ipcRenderer.send('save-bookmark', obj);
-
-      }else if(bookmarkedVerse.classList.contains('bookmarked')){
-        bookmarkedVerse.classList.remove('bookmarked');
-
-        let id = bookmarkedVerse.getAttribute('key');
-        ipcRenderer.send('unbookmarked', id);
-      }
-
-      hidePopup();
+  btnBookmarkBlue.addEventListener('click', () => {
+      setBookmark('bookmarked', 'powderblue')
   });
+
+  btnBookmarkYellow.addEventListener('click', () => {
+      setBookmark('bookmarked_y', 'lightpink')
+  });
+
+  btnBookmarkGreen.addEventListener('click', () => {
+      setBookmark('bookmarked_g', 'lightgreen')
+  });
+
+}
+
+function setBookmark(btnClass, color){
+  if(bookmarkClassName == null){
+    bookmarkedVerse.classList.add(btnClass);
+    bookmarkedVerse.classList.remove('highlighted');
+
+    let obj = {
+      bookId: bookID,
+      chapter:bookChapter,
+      verse:bookmarkedVerse.getAttribute('id'),
+      color:color
+    }
+    ipcRenderer.send('save-bookmark', obj);
+
+  }else if(bookmarkClassName != null){
+    bookmarkedVerse.classList.remove(bookmarkClassName);
+    bookmarkedVerse.classList.remove('highlighted');
+    let id = bookmarkedVerse.getAttribute('key');
+    ipcRenderer.send('unbookmarked', id);
+  }
+
+  hidePopup();
 }
 
 async function fetchBookmarks(){
@@ -209,9 +225,18 @@ async function fetchBookmarks(){
         if(book == bk.bookNum && chapter == bk.chapter) {
           vs.forEach((v) => {
             if(v.getAttribute("id") == bk.verse){
-              v.classList.add("bookmarked");
-
               v.setAttribute("key", bk.id)
+              switch(bk.color){
+                case "powderblue":
+                  v.classList.add("bookmarked");
+                  break;
+                case "lightpink":
+                  v.classList.add("bookmarked_y");
+                  break;
+                case "lightgreen":
+                  v.classList.add("bookmarked_g");
+                  break;
+              }
             } 
         });
       } 
@@ -221,12 +246,15 @@ async function fetchBookmarks(){
 
  function updateBookmarkTooltip(){
     if(bookmarkedVerse!== null && bookmarkedVerse.classList.contains("bookmarked")){
-        btnBookmark.setAttribute("title", "Unbookmark verse");
+        btnBookmarkBlue.setAttribute("title", "Unbookmark verse");
     }else{
-      btnBookmark.setAttribute("title", "Bookmark verse");
+      btnBookmarkBlue.setAttribute("title", "Bookmark verse"); 
     }
  }
 
+ function updateBookmarkColor(bookmarkedClass){
+    return bookmarkedClass
+ }
 //============== End popup
 
 function getCommentryRef(myclass) {
@@ -774,7 +802,7 @@ function getClickedVerse() {
           getCmntryOnVerses(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verseId);
 
           for (let i = 0; i < verses.length; i++) {
-          verses[i].classList.remove("highlighted");;
+          verses[i].classList.remove("highlighted");
         }
           verse.classList.add("highlighted") // hightlight clicked vers
           SetPanelActive(0);
@@ -783,9 +811,13 @@ function getClickedVerse() {
           getVerseText(bookName.getAttribute('bookId'), chapterNumber.getAttribute('key'), verse.getAttribute('id'));
           myPopup(verse);
           fetchVersetext();
-          // verse.style.textDecoration = "underline";
-
           updateBookmarkTooltip();
+
+          if(verse.getAttribute('key') != null){
+            // console.log(verse.className.split(' ')[1]);
+            bookmarkClassName = verse.className.split(' ')[1];
+          }
+          
       })
     })
 }
