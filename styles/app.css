@@ -394,14 +394,14 @@ body {
     border-bottom-right-radius: 10%;
     cursor: pointer;
     z-index: 20000;
+    gap: 0.75em;
 }
 
-#popup button{
+#popup span{
     cursor: pointer;
-    width: 28px;
+    width: 22px;
     height: 22px;
-    /* background-color: transparent; */
     border: none;
     color: #fff;
-    margin: 0.1em;
+    text-align: center;
 }

@@ -217,6 +217,13 @@ h5 {
 }
 
 .btnCopy{
-    background-color: transparent;
-    padding: 0;
+    /* display: inline-flex;
+    justify-content: center;
+    align-items: center; */
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    background-image: url('../images/copy.svg');
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }

@@ -38,7 +38,7 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
-   mainWindow.webContents.openDevTools();
+  //  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -482,7 +482,6 @@ function queryDatabase(){
     deleteFolder();
     getStrongsNumbers();
     getChapterVerse();
-    // updateVerse();
     saveBookmark();
     getBookmark();
     deleteBookmark();

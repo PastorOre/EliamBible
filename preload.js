@@ -144,7 +144,7 @@ function myPopup(elem) {
   const rect = elem.getBoundingClientRect();
   const top = rect.top - 10;
   popup.style.top = top + 'px';
-  popup.style.display = 'block';  
+  popup.style.display = 'flex';  
 
   btnCopy.addEventListener('click', () => {
       let selectedVerse = bookName.textContent +" "+ bookChapter +":"+ chapterVerse +"\n"+ verserText; 
