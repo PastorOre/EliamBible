@@ -252,9 +252,10 @@ async function fetchBookmarks(){
     }
  }
 
- function updateBookmarkColor(bookmarkedClass){
-    return bookmarkedClass
+ bibleContainer.onscroll = () => {
+      hidePopup();
  }
+
 //============== End popup
 
 function getCommentryRef(myclass) {
