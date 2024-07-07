@@ -233,10 +233,13 @@ h5 {
 }
 
 .btnCopy{
-    background-image: url('../images/copy.svg');
-    display: inline-block;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 0.5em;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.15em;
+}
+
+.btnPlay{
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.15em;
 }

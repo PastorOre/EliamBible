@@ -135,6 +135,10 @@ body {
     padding: 1px;
 }
 
+/* .btn-speach{
+    border-top:#6b6b6b 0.1em solid;
+} */
+
 .focus {
     padding:0px 2px;
     background-color: #302f2f;
@@ -394,7 +398,7 @@ body {
     border-bottom-right-radius: 10%;
     cursor: pointer;
     z-index: 20000;
-    gap: 0.75em;
+    gap: 0.5em;
 }
 
 #popup span{

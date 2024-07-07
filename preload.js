@@ -172,7 +172,7 @@ function copyTextToClipboard(text) {
         }else{
           console.log('Async: Copying to clipboard was successful!');
         }
-    })
+    });
 }
 
 function bookmarkVerse(){
@@ -1298,6 +1298,35 @@ window.addEventListener('wheel', () => {
     hidePopup();
 });
 
+//============ Text to speach =============
+
+let btnPlayVerse = document.querySelector(".btnPlay")
+const utterThis = new SpeechSynthesisUtterance()
+const synth = window.speechSynthesis
+const voices = synth.getVoices()
+let ourText = "";
+
+const checkBrowserCompatibility = () => {
+  "speechSynthesis" in window
+    ? console.log("Web Speech API supported!")
+    : console.log("Web Speech API not supported :-(")
+}
+
+function playHighlightedVerse(){
+  btnPlayVerse.addEventListener('click', (evt) => {
+        evt.preventDefault()
+        ourText = verserText;
+        utterThis.text = ourText;
+        utterThis.volume = 1;
+        // utterThis.lang = "en-UK";
+        utterThis.lang = "en-US";
+        utterThis.pitch = 1.5;
+        synth.speak(utterThis);
+  })
+}
+
+checkBrowserCompatibility();
+playHighlightedVerse();
 
 //============ End of Strongs Section
 restoreLastOpendBook();
