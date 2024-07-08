@@ -41,7 +41,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnCopy = document.querySelector('.btnCopy'),
     btnBookmarkBlue = document.querySelector('.btnBookmark'),
     btnBookmarkGreen = document.querySelector('.btnBookmark_g'),
-    btnBookmarkYellow = document.querySelector('.btnBookmark_y');
+    btnBookmarkPink = document.querySelector('.btnBookmark_p');
 
 let bookname = "";
 let noteFolders = [];
@@ -180,8 +180,8 @@ function bookmarkVerse(){
       setBookmark('bookmarked', 'powderblue')
   });
 
-  btnBookmarkYellow.addEventListener('click', () => {
-      setBookmark('bookmarked_y', 'lightpink')
+  btnBookmarkPink.addEventListener('click', () => {
+      setBookmark('bookmarked_p', 'lightpink');
   });
 
   btnBookmarkGreen.addEventListener('click', () => {
@@ -203,7 +203,7 @@ function setBookmark(btnClass, color){
     }
     ipcRenderer.send('save-bookmark', obj);
 
-  }else if(bookmarkClassName != null){
+  }else if(bookmarkClassName != null && btnClass == bookmarkClassName){
     bookmarkedVerse.classList.remove(bookmarkClassName);
     bookmarkedVerse.classList.remove('highlighted');
     let id = bookmarkedVerse.getAttribute('key');
@@ -231,7 +231,7 @@ async function fetchBookmarks(){
                   v.classList.add("bookmarked");
                   break;
                 case "lightpink":
-                  v.classList.add("bookmarked_y");
+                  v.classList.add("bookmarked_p");
                   break;
                 case "lightgreen":
                   v.classList.add("bookmarked_g");
@@ -245,10 +245,10 @@ async function fetchBookmarks(){
  }
 
  function updateBookmarkTooltip(){
-    if(bookmarkedVerse!== null && bookmarkedVerse.classList.contains("bookmarked")){
+    if(bookmarkedVerse !== null && bookmarkedVerse.classList.contains("bookmarked")){
         btnBookmarkBlue.setAttribute("title", "Unbookmark verse");
     }else{
-      btnBookmarkBlue.setAttribute("title", "Bookmark verse"); 
+        btnBookmarkBlue.setAttribute("title", "Bookmark verse"); 
     }
  }
 
