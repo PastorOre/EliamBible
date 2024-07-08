@@ -145,7 +145,7 @@ function myTooltip(elem) {
 
 function myPopup(elem) {
   const rect = elem.getBoundingClientRect();
-  const top = rect.top - 10;
+  const top = rect.top - 125;
   popup.style.top = top + 'px';
   popup.style.display = 'flex';  
 

@@ -389,13 +389,14 @@ body {
 #popup{
     position: absolute;
     display: none;
+    flex-direction: column;
     padding: 0.5em;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     left: 0;
     top:0;
-    border-top-right-radius: 10%;
-    border-bottom-right-radius: 10%;
+    /* border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%; */
     cursor: pointer;
     z-index: 20000;
     gap: 0.5em;
@@ -408,4 +409,5 @@ body {
     border: none;
     color: #fff;
     text-align: center;
+    border-radius: 50%;
 }
