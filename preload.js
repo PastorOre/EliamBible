@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
     chapterNumber = document.querySelector('#chapter'),
     introToBook = document.querySelector('.btn-intro'),
     searchCard = document.querySelector("#search-card"),
+    bookmarkCard = document.querySelector("#bookmark-card"),
     sidebar = document.querySelector(".sidebar-div"),
     searchCount = document.querySelector("#search-count"),
     comtryContent = document.querySelector('.comt-content'),
@@ -177,31 +178,34 @@ function copyTextToClipboard(text) {
 
 function bookmarkVerse(){
   btnBookmarkBlue.addEventListener('click', () => {
-      setBookmark('bookmarked', 'powderblue')
+      setBookmark('bookmarked', 'powderblue', verserText)
   });
 
   btnBookmarkPink.addEventListener('click', () => {
-      setBookmark('bookmarked_p', 'lightpink');
+      setBookmark('bookmarked_p', 'lightpink', verserText);
   });
 
   btnBookmarkGreen.addEventListener('click', () => {
-      setBookmark('bookmarked_g', 'lightgreen')
+      setBookmark('bookmarked_g', 'lightgreen', verserText)
   });
 
 }
 
-function setBookmark(btnClass, color){
+function setBookmark(btnClass, color, text){
   if(bookmarkClassName == null){
     bookmarkedVerse.classList.add(btnClass);
     bookmarkedVerse.classList.remove('highlighted');
 
     let obj = {
-      bookId: bookID,
+      bookid: bookID,
+      bookname: bookName.textContent,
       chapter:bookChapter,
       verse:bookmarkedVerse.getAttribute('id'),
-      color:color
+      color:color,
+      text:text
     }
     ipcRenderer.send('save-bookmark', obj);
+    // console.log(JSON.stringify(obj));
 
   }else if(bookmarkClassName != null && btnClass == bookmarkClassName){
     bookmarkedVerse.classList.remove(bookmarkClassName);
@@ -216,13 +220,13 @@ function setBookmark(btnClass, color){
 async function fetchBookmarks(){
   let content = document.getElementById('content');
   let vs = content.querySelectorAll('.v');
-  let book = document.getElementById('book').getAttribute('bookId');
+  let book = document.getElementById('book').textContent;
   let chapter = document.getElementById('chapter').getAttribute('key');
 
   const data =  await ipcRenderer.invoke('get-bookmarks');
   if(data){
       data.forEach((bk) => {
-        if(book == bk.bookNum && chapter == bk.chapter) {
+        if(book == bk.bookName && chapter == bk.chapter) {
           vs.forEach((v) => {
             if(v.getAttribute("id") == bk.verse){
               v.setAttribute("key", bk.id)
@@ -236,12 +240,39 @@ async function fetchBookmarks(){
                 case "lightgreen":
                   v.classList.add("bookmarked_g");
                   break;
-              }
-            } 
+              } 
+            }  
         });
       } 
     });
   }
+    	
+ }
+
+ getBookmarkedText(); //=========== returns bookmarked verse s==========
+
+ async function getBookmarkedText(){
+    const data =  await ipcRenderer.invoke('get-bookmarks');
+    if(data){
+      data.map((dt) => {
+        const bookmarkResult = document.createElement('div');
+        bookmarkResult.setAttribute('data-bookid', dt.bkId);
+        bookmarkResult.setAttribute('data-chapter', dt.chapter);
+        bookmarkResult.setAttribute('data-verse', dt.verse);
+        let passage = `${dt.bookName} ${dt.chapter}:${dt.verse}`
+        let verseText = dt.text;
+        bookmarkResult.classList.add('bookmark-result');
+        bookmarkResult.innerHTML = `<span class="bookmark-chap">${passage}</span>
+                            <span class="bookmark-text">${verseText}</span>`;
+        bookmarkCard.appendChild(bookmarkResult);
+
+        bookmarkResult.addEventListener('click', (e) => {
+          console.log(bookmarkResult.getAttribute('data-chapter'));
+            scrollToVerse(bookmarkResult.getAttribute('data-verse'));
+            getBibleChapter(bookmarkResult.getAttribute('data-bookid'), bookmarkResult.getAttribute('data-chapter'));
+        });
+      })
+    } 
  }
 
  function updateBookmarkTooltip(){
@@ -338,11 +369,9 @@ const clickedLink = (ref) => {
             if (bks > 46) {
               books.style.background = '#636161';
             }
-
             bibleBooks.appendChild(books);
-
           })
-        }  
+        }   
     }
 
     const fetchedBookChapters = () => {
@@ -856,7 +885,7 @@ function fetchVersetext(){
         bookChapter = row.chapter;
         chapterVerse = row.verse;
         verserText = row.info;
-      });
+      });  
   })
 }
 

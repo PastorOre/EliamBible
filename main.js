@@ -425,7 +425,8 @@ function queryDatabase(){
 
   function saveBookmark(){
     ipcMain.on('save-bookmark', async (err, data) =>{
-     bkdb.run(`INSERT INTO bookmark (bookNum, chapter, verse, color) VALUES (?,?,?,?)`, [data.bookId, data.chapter, data.verse, data.color], (err) =>{
+     bkdb.run(`INSERT INTO bookmark (bkId, bookName, chapter, verse, color, text) VALUES (?,?,?,?,?,?)`,
+       [data.bookid, data.bookname, data.chapter, data.verse, data.color, data.text], (err) =>{
         if (err) {
           console.error(err);
           return;

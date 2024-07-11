@@ -16,15 +16,19 @@
 }
 
 /*================ Search section ===================*/
+.bookmark-div,
 .search-div {
     /*display: grid;*/
     grid-template-rows: auto 1fr;
     overflow:hidden;
 }
+
+.bookmaked-result-div,
 .search-result-div {
     overflow-y: auto;
 }
 
+.bookmark-result,
 .search-result {
     display: grid;
     grid-template-rows: auto auto;
@@ -41,15 +45,18 @@
     line-height: 1.35em;
 }
 
+.bookmark-result span:first-child,
 .search-result span:first-child {
     font-weight: bold;
     padding-bottom: 5px;
 }
 
-    .search-result:last-child {
-        border-bottom: none;
-    }
+.bookmark-result:last-child,
+.search-result:last-child {
+    border-bottom: none;
+}
 
+#bookmark-head,
 #search-count {
     display: block;
     padding: 5px;
