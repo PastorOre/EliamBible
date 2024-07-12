@@ -5,7 +5,7 @@
     width: 6px;
 }
 
-
+.bookmaked-result-div::-webkit-scrollbar,
 .search-result-div::-webkit-scrollbar,
 .books-dialog::-webkit-scrollbar,
 .editor-wrapper::-webkit-scrollbar,
@@ -25,6 +25,7 @@
     margin-bottom: 10px;
 }
 
+.bookmaked-result-div::-webkit-scrollbar-thumb,
 .search-result-div::-webkit-scrollbar-thumb,
 .books-dialog::-webkit-scrollbar-thumb,
 .editor-wrapper::-webkit-scrollbar-thumb,
@@ -40,7 +41,8 @@
     -webkit-appearance: none;
 }
 
-    .search-result-div::-webkit-scrollbar-thumb:hove
+.bookmaked-result-div::-webkit-scrollbar-thumb:hover,
+    .search-result-div::-webkit-scrollbar-thumb:hover,
     .books-dialog::-webkit-scrollbar-thumb:hover,
     .editor-wrapper::-webkit-scrollbar-thumb:hover,
     .dict-words-list::-webkit-scrollbar-thumb:hover,
@@ -54,6 +56,7 @@
         background: #a8a8a8;
     }
 
+.bookmaked-result-div::-webkit-scrollbar-corner,
 .search-result-div::-webkit-scrollbar-corner,
 .books-dialog::-webkit-scrollbar-corner,
 .editor-wrapper::-webkit-scrollbar-corner,

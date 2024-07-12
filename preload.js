@@ -178,7 +178,7 @@ function copyTextToClipboard(text) {
 
 function bookmarkVerse(){
   btnBookmarkBlue.addEventListener('click', () => {
-      setBookmark('bookmarked', 'powderblue', verserText)
+      setBookmark('bookmarked', 'powderblue', verserText);
   });
 
   btnBookmarkPink.addEventListener('click', () => {
@@ -186,7 +186,7 @@ function bookmarkVerse(){
   });
 
   btnBookmarkGreen.addEventListener('click', () => {
-      setBookmark('bookmarked_g', 'lightgreen', verserText)
+      setBookmark('bookmarked_g', 'lightgreen', verserText);
   });
 
 }
@@ -215,6 +215,7 @@ function setBookmark(btnClass, color, text){
   }
 
   hidePopup();
+  getBookmarkedText(); 
 }
 
 async function fetchBookmarks(){
@@ -224,7 +225,7 @@ async function fetchBookmarks(){
   let chapter = document.getElementById('chapter').getAttribute('key');
 
   const data =  await ipcRenderer.invoke('get-bookmarks');
-  if(data){
+  if(data.length > 0){
       data.forEach((bk) => {
         if(book == bk.bookName && chapter == bk.chapter) {
           vs.forEach((v) => {
@@ -249,21 +250,28 @@ async function fetchBookmarks(){
     	
  }
 
- getBookmarkedText(); //=========== returns bookmarked verse s==========
-
+//=========== returns bookmarked verse s==========
  async function getBookmarkedText(){
     const data =  await ipcRenderer.invoke('get-bookmarks');
-    if(data){
+    while (bookmarkCard.firstChild) {
+      bookmarkCard.removeChild(bookmarkCard.firstChild)
+  }
+    if(data.length > 0){
       data.map((dt) => {
         const bookmarkResult = document.createElement('div');
         bookmarkResult.setAttribute('data-bookid', dt.bkId);
         bookmarkResult.setAttribute('data-chapter', dt.chapter);
         bookmarkResult.setAttribute('data-verse', dt.verse);
+        bookmarkResult.setAttribute('data-color', dt.color);
         let passage = `${dt.bookName} ${dt.chapter}:${dt.verse}`
         let verseText = dt.text;
         bookmarkResult.classList.add('bookmark-result');
-        bookmarkResult.innerHTML = `<span class="bookmark-chap">${passage}</span>
-                            <span class="bookmark-text">${verseText}</span>`;
+        bookmarkResult.innerHTML = `<div class="bookmark-passage">
+            <span class="bookmark-color" style="background-color:${dt.color};"></span>
+            <span class="bookmark-chap">${passage}</span>
+        </div>
+            <span class="bookmark-text">${verseText}</span>`;
+
         bookmarkCard.appendChild(bookmarkResult);
 
         bookmarkResult.addEventListener('click', (e) => {
@@ -1381,6 +1389,7 @@ searchDictionaryEvent();
 getStrongs();
 searchStrongsEvent();
 fetchBookmarks();
+getBookmarkedText();
 
 //================Exposing functions in the main
     const WINDOW_API = {  
