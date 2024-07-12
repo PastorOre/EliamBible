@@ -205,6 +205,7 @@ function setBookmark(btnClass, color, text){
       text:text
     }
     ipcRenderer.send('save-bookmark', obj);
+    addToBookmarked(obj.bookid, obj.bookname, obj.chapter, obj.verse, obj.color, obj.text)
     // console.log(JSON.stringify(obj));
   }else if(bookmarkClassName != null && btnClass == bookmarkClassName){
     bookmarkedVerse.classList.remove(bookmarkClassName);
@@ -255,33 +256,35 @@ async function fetchBookmarks(){
 //=========== returns bookmarked verse s==========
  async function getBookmarkedText(){
     const data =  await ipcRenderer.invoke('get-bookmarks');
-    while (bookmarkCard.firstChild) {
-      bookmarkCard.removeChild(bookmarkCard.firstChild)
-    }
     if(data.length > 0){
       data.map((dt) => {
-        const bookmarkResult = document.createElement('div');
-        bookmarkResult.setAttribute('data-bookid', dt.bkId);
-        bookmarkResult.setAttribute('data-chapter', dt.chapter);
-        bookmarkResult.setAttribute('data-verse', dt.verse);
-        bookmarkResult.setAttribute('data-color', dt.color);
-        let passage = `${dt.bookName} ${dt.chapter}:${dt.verse}`
-        let verseText = dt.text;
-        bookmarkResult.classList.add('bookmark-result');
-        bookmarkResult.innerHTML = `<div class="bookmark-passage">
-            <span class="bookmark-color" style="background-color:${dt.color};"></span>
-            <span class="bookmark-chap">${passage}</span>
-        </div>
-            <span class="bookmark-text">${verseText}</span>`;
-
-        bookmarkCard.appendChild(bookmarkResult);
-
-        bookmarkResult.addEventListener('click', (e) => {
-            scrollToVerse(bookmarkResult.getAttribute('data-verse'));
-            getBibleChapter(bookmarkResult.getAttribute('data-bookid'), bookmarkResult.getAttribute('data-chapter'));
-        });
+        addToBookmarked(dt.bkId, dt.bookName, dt.chapter, dt.verse, dt.color, dt.text)
       })
     } 
+ }
+
+ function addToBookmarked(id, bookName, chapter, verse, color, text){
+  const bookmarkResult = document.createElement('div');
+  bookmarkResult.setAttribute('data-bookid', id);
+  bookmarkResult.setAttribute('data-chapter', chapter);
+  bookmarkResult.setAttribute('data-verse', verse);
+  bookmarkResult.setAttribute('data-color', color);
+  let passage = `${bookName} ${chapter}:${verse}`
+  let verseText = text;
+  bookmarkResult.classList.add('bookmark-result');
+  bookmarkResult.innerHTML = `<div class="bookmark-passage">
+      <span class="bookmark-color" style="background-color:${color};"></span>
+      <span class="bookmark-chap">${passage}</span>
+  </div>
+      <span class="bookmark-text">${verseText}</span>`;
+
+  bookmarkCard.appendChild(bookmarkResult);
+
+  bookmarkResult.addEventListener('click', (e) => {
+      scrollToVerse(bookmarkResult.getAttribute('data-verse'));
+      getBibleChapter(bookmarkResult.getAttribute('data-bookid'), bookmarkResult.getAttribute('data-chapter'));
+  });
+
  }
 
  function updateBookmarkTooltip(){
