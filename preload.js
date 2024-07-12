@@ -206,16 +206,18 @@ function setBookmark(btnClass, color, text){
     }
     ipcRenderer.send('save-bookmark', obj);
     // console.log(JSON.stringify(obj));
-
   }else if(bookmarkClassName != null && btnClass == bookmarkClassName){
     bookmarkedVerse.classList.remove(bookmarkClassName);
     bookmarkedVerse.classList.remove('highlighted');
     let id = bookmarkedVerse.getAttribute('key');
     ipcRenderer.send('unbookmarked', id);
+    let marked = bookmarkCard.querySelectorAll('.bookmark-result');
+      marked.forEach(bk => {
+        if(bookmarkedVerse.getAttribute('id') == bk.getAttribute('data-verse'))
+          bookmarkCard.removeChild(bk);
+      });
   }
-
-  hidePopup();
-  getBookmarkedText(); 
+    hidePopup();
 }
 
 async function fetchBookmarks(){
@@ -255,7 +257,7 @@ async function fetchBookmarks(){
     const data =  await ipcRenderer.invoke('get-bookmarks');
     while (bookmarkCard.firstChild) {
       bookmarkCard.removeChild(bookmarkCard.firstChild)
-  }
+    }
     if(data.length > 0){
       data.map((dt) => {
         const bookmarkResult = document.createElement('div');
@@ -275,7 +277,6 @@ async function fetchBookmarks(){
         bookmarkCard.appendChild(bookmarkResult);
 
         bookmarkResult.addEventListener('click', (e) => {
-          console.log(bookmarkResult.getAttribute('data-chapter'));
             scrollToVerse(bookmarkResult.getAttribute('data-verse'));
             getBibleChapter(bookmarkResult.getAttribute('data-bookid'), bookmarkResult.getAttribute('data-chapter'));
         });
@@ -735,6 +736,7 @@ function displayCommentaryOnVerse(args) {
 
       hidePopup();
       fetchBookmarks();
+      // getBookmarkedText();
   }
 //========= Show book names dialog
     function openBibleDialog(){
