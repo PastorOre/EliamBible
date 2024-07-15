@@ -248,3 +248,10 @@ h5 {
 .btnPlay img:hover{
     opacity: 0.75;
 }
+
+.no-result{
+    display: grid;
+    text-align: center;
+    padding: 2em;
+    font-weight: bold;
+}

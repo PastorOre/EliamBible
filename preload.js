@@ -458,6 +458,7 @@ const clickedLink = (ref) => {
             searchCard.removeChild(searchCard.firstChild)
             searchCount.innerHTML = `Returned 0 Result`;
         }
+        if(args.length > 0) {
           args.forEach(data => {
             const searchResult = document.createElement('div');
             searchResult.setAttribute('data-bookid', data.bookNum);
@@ -485,11 +486,18 @@ const clickedLink = (ref) => {
               }          
                            
             });
-            SetPanelActive(1);
-            setIconActive(1); 
-            highlightSearchText(searchedText);
-
           });
+        }else{
+          let noResult = document.createElement('div');
+          noResult.classList.add('no-result');
+          noResult.innerHTML = 'No results found';
+          searchCard.appendChild(noResult);
+        }
+
+        SetPanelActive(1);
+        setIconActive(1); 
+        highlightSearchText(searchedText);
+          
       });
   }
 
