@@ -922,6 +922,7 @@ function getBibleChapter(bookId, chapterNumber) {
 
   ipcRenderer.send('book-passage', obj)
   getCmntryOnChapters(bookId, chapterNumber);
+  fetchBookmarks(bookId, chapterNumber);
 }
 //=========== Get the search word or frase from the input element
 function getSearchText(searchText){
